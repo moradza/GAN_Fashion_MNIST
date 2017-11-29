@@ -1,0 +1,135 @@
+\ifx\ldefsincluded\undefined
+\def\ldefsincluded{X}
+\else
+	\endinput
+\fi
+%%%%%%%
+%%%%%%% First define whether we are compiling a single LN or the combined pdf
+%%%%%%%
+\newif\ifmBIGFILE
+\ifx\enableBIGFILE\undefined
+\mBIGFILEfalse
+\else
+\mBIGFILEtrue
+\fi
+
+\documentclass[11pt,oneside,openany]{book}
+\pagestyle{plain}
+
+\usepackage{graphicx,amsmath,amssymb,amsthm,xspace,microtype}
+\usepackage[
+            bookmarksnumbered=true,
+            bookmarksopen=true,
+            colorlinks=true,
+            citecolor=red,
+            linkcolor=blue,
+            anchorcolor=red,
+            urlcolor=blue
+            ]{hyperref}
+
+
+%We need to lookup references from lec*.tex files sometimes 
+\ifmBIGFILE\else
+\usepackage{xr}
+\ifx\execinpreamble\undefined\else
+\execinpreamble
+\fi\fi
+
+\ifmBIGFILE
+\newcommand{\mlecture}[4]{%
+	% We now ignore the 4th argument that used to set the chapter number
+	\pagebreak%\setcounter{chapter}{#4}\addtocounter{chapter}{-1}
+	\chapter{#1}\setcounter{footnote}{0}}
+\else
+\newcommand{\mlecture}[4]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in {\small  {\bf ECE598: Learning: Model and Algorithm} \hfill Fall 2017}
+      \vspace{4mm}
+      \hbox to 5.78in { {\bf Mid-review Report # 1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in {\em Author: Alireza Moradzadeh \hfill Report: #3, #4} 
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+  \par\setcounter{chapter}{#1}
+}
+\fi
+
+
+
+%%%%%%% SETUP PAGE GEOMETRY
+\ifmBIGFILE
+\usepackage[letterpaper,nohead,top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\else
+% 1-inch margins, from fullpage.sty by H.Partl, Version 2, Dec. 15, 1988.
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+\fi
+
+
+%% ams theorems environment
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{observation}{Observation}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{claim}{Claim}[chapter]
+\newtheorem{fact}{Fact}[chapter]
+\newtheorem{assumption}{Assumption}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+\newtheorem{example}{Example}[chapter]
+
+\newcommand{\note}{\noindent {\bf Note}:\ }
+\newcommand{\ques}{\noindent {\bf Question}:\ }
+\newcommand{\intp}{{\it Interpretation}:\ }
+\newcommand{\newproof}{{\it New Proof}:\ }
+
+
+%%% Just a placeholder for comments....
+\newif\ifmapx
+\mapxfalse
+\long\def\apxonly#1{\ifmapx{\color{blue}#1}\fi}
+\long\def\bigonly#1{\ifmBIGFILE{#1}\fi}
+
+
+%% figure folder
+\graphicspath{ {./figs/} }
+
+%% define hard subsection/subsubsection by appending an asterisk
+\newcommand{\sectionhard}[1]{
+	\renewcommand{\thesection}{\thechapter.\arabic{section}*}
+	\section{#1}
+	\renewcommand{\thesection}{\thechapter.\arabic{section}}
+}
+
+\newcommand{\subsectionhard}[1]{
+	\renewcommand{\thesubsection}{\thesection.\arabic{subsection}*}
+	\subsection{#1}
+	\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+}
+
+\newcommand{\subsubsectionhard}[1]{
+	\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}*}
+	\subsubsection{#1}
+	\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+}
+
+\ifmBIGFILE
+\else
+	\begin{document}
+\fi
